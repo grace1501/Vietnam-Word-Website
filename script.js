@@ -23,7 +23,7 @@ function displayWord(wordIndex) {
     if (wordIndex >= wordsArray.length) {
         wordIndex = 0;
     }
-    wordObj = wordsArray[wordIndex];
+    let wordObj = wordsArray[wordIndex];
     wordToTranslate.innerHTML = wordObj.word
 }
 
@@ -40,8 +40,12 @@ async function getWordsArray() {
 }
 
 blacklistBtn.addEventListener('click', async () => {
-    let resquestBody = wordsArray.splice(wordIndex,1);
-    console.log(resquestBody)
+    let wordObjToBlacklistArr = wordsArray.splice(wordIndex,1);
+    let wordToBlacklist = wordObjToBlacklistArr[0].word
+    console.log(wordToBlacklist)
+
+    let resquestBody = {'word': wordToBlacklist};
+    console.log('request: ' + JSON.stringify(resquestBody))
 
     try {
         const response = await fetch('http://192.168.50.156:8080/blacklist/add',
