@@ -19,12 +19,15 @@ startBtn.addEventListener('click', async () => {
         let wrongMeaningsObj = await wrongResponse.json()
         
         let index = randomPick(wordsArrayWithMeanings.length)
-        display.innerHTML = wordsArrayWithMeanings[index].word
+        let wordToTestObj = wordsArrayWithMeanings[index]
 
-        console.log(wordsArrayWithMeanings[index])
+        display.innerHTML = wordToTestObj.word;
+        correctMeaning = wordToTestObj.meaning;
 
         let wrongMeaningsArr = createWrongMeaningsArray(wrongMeaningsObj,3)
-        console.log(wrongMeaningsArr)
+
+        let testArray = wrongMeaningsArr.concat(correctMeaning);
+        createRadioButtons(testArray)
 
         return wordsArrayWithMeanings
     }
@@ -47,10 +50,7 @@ function createWrongMeaningsArray(objArr, resultLength){
     let index = randomPick(objArr.length)
 
     while (result.length < resultLength){
-
         let meaningVal = objArr[index].meaning
-        console.log(meaningVal)
-
         if (result.indexOf(meaningVal) < 0 && meaningVal.length > 0) {
             result.push(meaningVal)
         }
@@ -59,7 +59,22 @@ function createWrongMeaningsArray(objArr, resultLength){
     return result;
 }
 
+function createRadioButtons(optionsArr) {
+    options.innerHTML = '';
+    optionsArr.forEach((option) => {
+        console.log(option)
+        let label = document.createElement("label");
+        label.textContent = option;
 
+        let input = document.createElement("input");
+        input.type = "radio";
+        input.name = option;
+        input.value = option;
+
+        meaningsToChoose.appendChild(input);
+        meaningsToChoose.appendChild(label);
+    })
+}
 
 
 
